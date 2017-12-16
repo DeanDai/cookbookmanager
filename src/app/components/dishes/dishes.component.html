@@ -1,0 +1,30 @@
+<div *ngIf="dishes?.length > 0;else noDishes">
+  <ul *ngFor="let dish of dishes" class="collection">
+    <li class="collection-item">
+      <strong>{{dish.dish_name}}: </strong> {{dish.dish_desc}} 
+      <a href="#" class="secondary-content">
+        <i (click)="editDish($event, dish)" class="fa fa-pencil"></i>
+        <i *ngIf="editState && dishToEdit.id == dish.id" (click)="clearState()"  class="fa fa-compress"></i>
+      </a>
+      <div *ngIf="editState && dishToEdit.id == dish.id">
+        <form (ngSubmit)="updateDish(dish)">
+          <div class="row">
+            <div class="input-field col s6">
+              <input type="text" placeholder="Add Dish Name" [(ngModel)]="dish.dish_name" name="dish_name">
+            </div>
+            <div class="input-field col s6">
+              <input type="text" placeholder="Add Dish Desc" [(ngModel)]="dish.dish_desc" name="dish_desc">
+            </div>
+            <input type="submit" value="Update Dish" class="btn orange">
+            <button class="btn red" (click)="deleteDish($event, dish)">Delete Dish</button>
+          </div>
+        </form>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<ng-template #noDishes>
+  <hr>
+  <h5>There are no dishes to list</h5>
+</ng-template>
